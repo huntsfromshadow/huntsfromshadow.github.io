@@ -37,7 +37,7 @@
 <body>
   <div class="container my-container">
     <div class="row my-row">
-      <div class="col my-col">
+      <div class="col-sm my-col">
         <h1>ATE Build Calculator</h1>
       </div>
     </div>
@@ -48,20 +48,20 @@
       </button>
     </div>
     <div class="row my-row top-spacer">
-      <div class="col my-col">
+      <div class="col-sm my-col">
         <!-- Left Side - What you are building -->
         <div class="row my-row">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <h2>What do you want to build?</h2>
           </div>
         </div>
         <div class="row my-row">
           <!-- To Build Dropdown -->
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <select class="form-control" id="object_to_build">
             </select>
           </div>
-          <!-- <div class="col my-col">
+          <!-- <div class="col-sm my-col">
             <button type="button" class="btn btn-default btn-sm">
               <span class="glyphicon glyphicon-filter"></span> Filter
             </button>
@@ -69,7 +69,7 @@
         </div>
         <div class="row my-row">
           <!-- Comsumable Level Dropdown -->
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <select class="form-control" id="consumable_level">
               <option>Foolproof / Basic</option>
               <option>Intermediate</option>
@@ -79,7 +79,7 @@
         </div>
         <!-- already exists dropdown -->
         <div class="row my-row">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <div class="form-check">
               <input type="checkbox" class="form-check-input" id="alreadyExistCB">
               <label class="form-check-label" for="alreadyExistCB">Item Already Exists - Remove Create Cost</label>
@@ -88,16 +88,16 @@
         </div>
 
         <div class="row my-row">
-          <div class="col my-col top-spacer-2">
+          <div class="col-sm my-col-sm top-spacer-2">
             <h4>Add Qualities</h4>
           </div>
         </div>
         <div class="row my-row">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <select class="form-control" id="quality_to_add">
             </select>
           </div>
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <button type="submit" class="btn btn-primary" id="add_qual_button">
               Add Quality
             </button>
@@ -105,41 +105,41 @@
         </div>
       </div>
       <!-- Right Side - Results-->
-      <div class="col my-col">
+      <div class="col-sm my-col">
         <div class="row my-row">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <h3>Results</h3>
           </div>
         </div>
         <div class="row my-row">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <b>Building:</b>
             <div id="build_name" style="padding-left: 20px;">&nbsp;</div>
           </div>
         </div>
         <div class="row my-row">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <div id="notcalc_label">Not Calculated In</div>
           </div>
         </div>
         <div class="row my-row top-spacer-2">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <b>With Qualities:</b>
           </div>
         </div>
         <div class="row my-row">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <ul id="qual-list"></ul>
           </div>
         </div>
         <div class="row my-row">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <b>AP Cost:</b>
             <div id="ap_total" style="padding-left: 20px;">0</div>
           </div>
         </div>
         <div class="row my-row top-spacer">
-          <div class="col my-col">
+          <div class="col-sm my-col">
             <b>MU Cost:</b>
             <div id="mu_total" style="padding-left: 20px;">0</div>
           </div>
