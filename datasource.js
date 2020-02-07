@@ -1,4 +1,20 @@
-var dataset_objects = [
+function getAllObjects() {
+    var total = dataset_perm_objects.concat(dataset_consumable_objects).concat(dataset_ammo_objects);
+    return total.sort(function (a, b) {
+        if (a.name < b.name) {
+            return -1
+        }
+        else if (a == b) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
+
+    });
+}
+
+var dataset_perm_objects = [
     { "name": "Gun", "bc": 2, "bc_skill": "Junkin", "mc": 1, "mc_type": "Scrap", "type": "P" },
     { "name": "Close Weapon", "bc": 2, "bc_skill": "Junkin", "mc": 1, "mc_type": "Scrap", "type": "P" },
     { "name": "Nanowoven Jewelry", "bc": 0, "bc_skill": "Nanoweavin", "mc": 2, "mc_type": "Nano", "type": "P" },
@@ -6,7 +22,9 @@ var dataset_objects = [
     { "name": "Bow", "bc": 2, "bc_skill": "Junkin", "mc": 1, "mc_type": "Biomass or Scrap", "type": "P" },
     { "name": "Thrown Weapon Brace", "bc": 2, "bc_skill": "Junkin", "mc": 1, "mc_type": "Scrap", "type": "P" },
     { "name": "Armor", "bc": 0, "bc_skill": "", "mc": 0, "mc_type": "", "type": "P" },
+];
 
+var dataset_consumable_objects = [
     { "name": "Absorber Pack", "bc": [1, 2, 3], "bc_skill": "Junkin", "mc": 1, "mc_type": "Nano", "type": "C" },
     { "name": "Indulgence", "bc": [1, 2, 3], "bc_skill": "Medicine", "mc": 1, "mc_type": "Biomass", "type": "C" },
     { "name": "Quick-Stitcher", "bc": [2, 3, 4], "bc_skill": "Nanoweavin", "mc": 1, "mc_type": "Nano", "type": "C" },
@@ -27,7 +45,14 @@ var dataset_objects = [
     { "name": "Snapshot Blank", "bc": [1, 2, 3], "bc_skill": "Junkin", "mc": 1, "mc_type": "Nano", "type": "C" },
     { "name": "Refraction Field", "bc": [1, 2, 3], "bc_skill": "Junkin", "mc": 1, "mc_type": "Nano", "type": "C" },
     { "name": "Gas Mask Filter", "bc": 1, "bc_skill": "Junkin", "mc": 1, "mc_type": "Bio", "type": "C" },
-]
+];
+
+var dataset_ammo_objects = [
+    { "name": "Needleshot", "bc": [1, 2, 3], "bc_skill": "Junkin", "mc": 1, "mc_type": "Nano", "type": "C" },
+    { "name": "Buckshot", "bc": [1, 2, 3], "bc_skill": "Junkin", "mc": 1, "mc_type": "Scrap", "type": "C" },
+    { "name": "Blaze Shells", "bc": [1, 2, 3], "bc_skill": "Junkin", "mc": 1, "mc_type": "Nano", "type": "C" },
+    { "name": "Tranq Shot", "bc": [1, 2, 3], "bc_skill": "Junkin", "mc": 1, "mc_type": "Nano", "type": "C" },
+];
 
 var dataset_qualities = [
     { "name": "Rifle", "bc": 2, "bc_skill": "Junkin", "attach": "Gun" },

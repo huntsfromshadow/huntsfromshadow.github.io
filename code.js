@@ -68,7 +68,7 @@ function setupObjectToBuildDropdown() {
     var $dropdown = $('#object_to_build');
     var firsttime = true;
 
-    $.each(dataset_objects, function () {
+    $.each(getAllObjects(), function () {
         var $e = createOption(this)
         $dropdown.append($e)
     });
