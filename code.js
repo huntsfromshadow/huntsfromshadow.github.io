@@ -44,6 +44,9 @@ $(function () {
         //Clear quality textbox
         $qual.empty();
 
+        //Clear the quality list
+        $("#qual-list").empty();
+
         dataset_qualities.forEach(elem => {
             if (elem.attach == obj_name) {
                 var $e = createOption(elem)
@@ -174,7 +177,20 @@ function addQualityButtonClicked() {
     var qual = $("#quality_to_add").find(":selected")[0];
 
     var $e = $("<li />")
-    $e.text(qual.text);
+    var $s = $("<span />");
+    $s.text(qual.text);
+
+    $s.append(
+        $("<button type='button' class='btn btn-default btn-sm' />").append(
+            $("<i class='fas fa-ban' />").click(function (elem) {
+                $(elem.currentTarget).parent().parent().parent().remove();
+                processResults();
+            })
+        ));
+    $e.append($s);
+
+
+
 
     for (var d in qual.dataset) {
         $e.attr("data-" + d, qual.dataset[d])
