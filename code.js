@@ -1,3 +1,6 @@
+//Global Vars
+var filterBit = "111000";
+
 //Setup the Sytem
 $(function () {
     //Register Change Events
@@ -15,7 +18,23 @@ $(function () {
             $("#notcalc_label").hide()
         }
         processResults();
-    })
+    });
+
+    var $radios = $('input[name="groupRadio"]');
+    $radios.change(function () {
+        changeFilterRadio();
+    });
+    $('input[type=checkbox]').not('#alreadyExistCB').change(function () {
+        recalcFilterBit();
+    });
+
+    $("#btnReset").click(function () {
+        $("#radByType").click();
+        $('#cb_perm').prop('checked', true);
+        $('#cb_consum').prop('checked', true);
+        $('#cb_ammo').prop('checked', true);
+        recalcFilterBit();
+    });
 
     $("#object_to_build").change(function () {
         //We need to fill the quality field
@@ -39,7 +58,6 @@ $(function () {
         for (var d in $ob[0].dataset) {
             $e.attr("data-" + d, $ob[0].dataset[d])
         }
-
 
         $("#build_name").append($e);
 
@@ -68,7 +86,83 @@ function setupObjectToBuildDropdown() {
     var $dropdown = $('#object_to_build');
     var firsttime = true;
 
-    $.each(getAllObjects(), function () {
+    //Clear the current dropdown
+    $dropdown.empty();
+
+    //Okay we need to look at the filter bit.
+    let b = parseInt(filterBit, 2);
+    if (b == 0) {
+        return; //Just bail as they have picked nothing
+    }
+    let m1 = 0b111000;
+
+    var objectsToLoad = [];
+
+    if ((b & m1) != 0) {
+        //Okay it's the first 3 set
+        //Kill the right 2 bits.
+        b = b >> 3;
+        if ((b & 0b100) != 0) {
+            objectsToLoad = objectsToLoad.concat(dataset_perm_objects);
+        }
+        if ((b & 0b010) != 0) {
+            objectsToLoad = objectsToLoad.concat(dataset_consumable_objects);
+        }
+        if ((b & 0b001) != 0) {
+            objectsToLoad = objectsToLoad.concat(dataset_ammo_objects);
+        }
+    }
+    else {
+        //Second 3
+        //By the system we know the left 3 are 0 we can ignore       
+        if ((b & 0b100) != 0) {
+            var fun = function (e) {
+                return (e.bc_skill == "Junkin" || e.bc_skill == "Varies");
+            };
+            objectsToLoad = objectsToLoad.concat(
+                dataset_perm_objects.filter(fun));
+            objectsToLoad = objectsToLoad.concat(
+                dataset_consumable_objects.filter(fun));
+            objectsToLoad = objectsToLoad.concat(
+                dataset_ammo_objects.filter(fun));
+        }
+        if ((b & 0b010) != 0) {
+            var fun = function (e) {
+                return (e.bc_skill == "Medicine" || e.bc_skill == "Varies");
+            };
+            objectsToLoad = objectsToLoad.concat(
+                dataset_perm_objects.filter(fun));
+            objectsToLoad = objectsToLoad.concat(
+                dataset_consumable_objects.filter(fun));
+            objectsToLoad = objectsToLoad.concat(
+                dataset_ammo_objects.filter(fun));
+        }
+        if ((b & 0b001) != 0) {
+            var fun = function (e) {
+                return (e.bc_skill == "Nanoweavin" || e.bc_skill == "Varies");
+            };
+            objectsToLoad = objectsToLoad.concat(
+                dataset_perm_objects.filter(fun));
+            objectsToLoad = objectsToLoad.concat(
+                dataset_consumable_objects.filter(fun));
+            objectsToLoad = objectsToLoad.concat(
+                dataset_ammo_objects.filter(fun));
+        }
+    }
+
+    /*objectsToLoad.sort(function (a, b) {
+        if (a.name < b.name) {
+            return -1
+        }
+        else if (a == b) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    });*/
+
+    $.each(objectsToLoad, function () {
         var $e = createOption(this)
         $dropdown.append($e)
     });
@@ -112,11 +206,10 @@ function processResults() {
     var final_mu = 0;
     var final_ap = 0;
 
-    //First look at the object itself      
+    //First look at the object itself
     if ($cb.is(":checked") == false) {
-        //Calculate the object        
+        //Calculate the object
         //Okay consumables can have a range
-        console.log($to[0])
         if ($to[0].dataset.type == "P") {
             final_ap = final_ap + parseInt($to[0].dataset.bc);
             final_mu = final_mu + parseInt($to[0].dataset.mc);
@@ -150,7 +243,7 @@ function processResults() {
 
         $ql.each(function (e) {
             if ($to[0].dataset.type == "C") {
-                final_ap = final_ap + (nq * 2); //Qual increase            
+                final_ap = final_ap + (nq * 2); //Qual increase
                 nq++;
             }
             else {
@@ -166,9 +259,70 @@ function processResults() {
         });
     }
 
-
-
-    //Set the results      
+    //Set the results
     $mut.text(final_mu);
     $apt.text(final_ap);
+}
+
+function changeFilterRadio() {
+    var $radios = $('input[name="groupRadio"]');
+    var id = $radios.filter(':checked').get(0).id;
+
+    switch (id) {
+        case "radByType":
+            swapFilterItemType("on");
+            swapFilterSkill("off");
+            break;
+        case "radBySkill":
+            swapFilterItemType("off");
+            swapFilterSkill("on");
+            break;
+    }
+
+    recalcFilterBit();
+}
+
+function swapFilterItemType(direc) {
+    if (direc === "on") {
+        $('#cb_perm').removeAttr('disabled');
+        $('#cb_consum').removeAttr('disabled');
+        $('#cb_ammo').removeAttr('disabled');
+    }
+    else {
+        $('#cb_perm').attr('disabled', true);
+        $('#cb_perm').prop('checked', false);
+        $('#cb_consum').attr('disabled', true);
+        $('#cb_consum').prop('checked', false);
+        $('#cb_ammo').attr('disabled', true);
+        $('#cb_ammo').prop('checked', false);
+    }
+}
+
+function swapFilterSkill(direc) {
+    if (direc === "on") {
+        $('#cb_junkin').removeAttr('disabled');
+        $('#cb_medicine').removeAttr('disabled');
+        $('#cb_nanoweavin').removeAttr('disabled');
+    }
+    else {
+        $('#cb_junkin').attr('disabled', true);
+        $('#cb_junkin').prop('checked', false);
+        $('#cb_medicine').attr('disabled', true);
+        $('#cb_medicine').prop('checked', false);
+        $('#cb_nanoweavin').attr('disabled', true);
+        $('#cb_nanoweavin').prop('checked', false);
+    }
+}
+
+function recalcFilterBit() {
+    filterBit =
+        ($('#cb_perm').is(":checked") ? '1' : '0') +
+        ($('#cb_consum').is(":checked") ? '1' : '0') +
+        ($('#cb_ammo').is(":checked") ? '1' : '0') +
+        ($('#cb_junkin').is(":checked") ? '1' : '0') +
+        ($('#cb_medicine').is(":checked") ? '1' : '0') +
+        ($('#cb_nanoweavin').is(":checked") ? '1' : '0');
+
+    //Bit has changed run rebuild
+    setupObjectToBuildDropdown()
 }

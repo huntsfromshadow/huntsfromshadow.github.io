@@ -1,24 +1,8 @@
-function getAllObjects() {
-    var total = dataset_perm_objects.concat(dataset_consumable_objects).concat(dataset_ammo_objects);
-    return total.sort(function (a, b) {
-        if (a.name < b.name) {
-            return -1
-        }
-        else if (a == b) {
-            return 0;
-        }
-        else {
-            return 1;
-        }
-
-    });
-}
-
 var dataset_perm_objects = [
     { "name": "Gun", "bc": 2, "bc_skill": "Junkin", "mc": 1, "mc_type": "Scrap", "type": "P" },
     { "name": "Close Weapon", "bc": 2, "bc_skill": "Junkin", "mc": 1, "mc_type": "Scrap", "type": "P" },
     { "name": "Nanowoven Jewelry", "bc": 0, "bc_skill": "Nanoweavin", "mc": 2, "mc_type": "Nano", "type": "P" },
-    { "name": "Superior Kit", "bc": 12, "bc_skill": "Junkin", "mc": 2, "mc_type": "Varies", "type": "P" },
+    { "name": "Superior Kit", "bc": 12, "bc_skill": "Varies", "mc": 2, "mc_type": "Varies", "type": "P" },
     { "name": "Bow", "bc": 2, "bc_skill": "Junkin", "mc": 1, "mc_type": "Biomass or Scrap", "type": "P" },
     { "name": "Thrown Weapon Brace", "bc": 2, "bc_skill": "Junkin", "mc": 1, "mc_type": "Scrap", "type": "P" },
     { "name": "Armor", "bc": 0, "bc_skill": "", "mc": 0, "mc_type": "", "type": "P" },
