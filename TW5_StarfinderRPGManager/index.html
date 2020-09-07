@@ -169,8 +169,6 @@ Error message and password prompt
 
 <li>Pit Trap</li>
 
-<li>Plugin Kickstarter</li>
-
 <li>README</li>
 
 <li>SF - Import NPC</li>
@@ -9772,76 +9770,6 @@ Error message and password prompt
 </div>
 <div created="20200907150826041" modified="20200907150826250" tags="Trap" title="Pit Trap" trap_cr="1/2" trap_disable="Engineering DC 12 (open trap door) or DC 18 (jam trap door shut)" trap_effect="20-ft.-deep pit (2d6 falling damage); Reflex DC 11 avoids; multiple targets (all targets in a 10-ft.-square area)" trap_name="PIT TRAP" trap_perception="DC 17" trap_reset="manual Effect 20-ft.-deep pit (2d6 falling damage)" trap_source="Core Rulebook" trap_trigger="location" trap_type="analog" trap_xp="200" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>{{||$:/plugins/huntsfromshadow/SF_RPG_Manager/templates/TrapTemplate}}</pre>
-</div>
-<div created="20141001162614812" modified="20180818171622950" title="Plugin Kickstarter" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>\define button-style() border: 1px solid; padding: 2px;
-\define plugin-title() $:/plugins/$(plugin-publisher)$/$(plugin-name)$
-\define plugin-config-title() $:/config/ThirdFlow/plugins/$:/plugins/$(plugin-publisher)$/$(plugin-name)$
-\define plugin-filename() $(plugin-name)$.tid
-
-\define create-new-plugin()
-&lt;$set name=&quot;plugin-publisher&quot; value={{$:/temp/PluginPublisher}}&gt;
-  &lt;$set name=&quot;plugin-name&quot; value={{$:/temp/PluginName}}&gt;
-	&lt;$button tooltip=&quot;create new plugin&quot; class=&lt;&lt;tv-config-toolbar-class&gt;&gt; style=&lt;&lt;button-style&gt;&gt; &gt;
-      &lt;$action-setfield $tiddler=&quot;$:/state/tab/sidebar--1835078512&quot; text=&quot;$:/core/ui/SideBar/More&quot;/&gt;
-      &lt;$action-setfield $tiddler=&quot;$:/state/tab/moresidebar-401116514&quot; text=&quot;$:/plugins/TheDiveO/ThirdFlow/ui/MoreSideBar/PluginSources&quot;/&gt;
-      &lt;$action-deletetiddler $tiddler=&lt;&lt;plugin-config-title&gt;&gt; /&gt;
-      &lt;$action-createtiddler $basetitle=&lt;&lt;plugin-config-title&gt;&gt; text=&lt;&lt;plugin-filename&gt;&gt; release=&quot;yes&quot;/&gt;
-      &lt;$action-sendmessage $message=&quot;tm-new-tiddler&quot; title=&lt;&lt;plugin-title&gt;&gt; $param=&quot;$:/plugins/TheDiveO/ThirdFlow/ui/MoreSideBar/templates/new/plugin&quot; /&gt;
-      {{$:/core/images/new-button}} new plugin
-	&lt;/$button&gt;
-  &lt;/$set&gt;
-&lt;/$set&gt;
-\end
-
-\define plugin-tiddler-within(title) $:/plugins/$(plugin-publisher-and-name)$/$title$
-
-\define plugin-full-path()
-$:/plugins/$(plugin-publisher-and-name)$
-\end
-
-\define add-boilerplate()
-&lt;$set name=&quot;plugin-publisher-and-name&quot; filter=&quot;[{$:/temp/PluginPublisher}addsuffix[/]addsuffix{$:/temp/PluginName}]&quot;&gt;
-  &lt;$set name=&quot;old-list&quot; tiddler=&lt;&lt;plugin-full-path&gt;&gt; field=&quot;list&quot;&gt;
-  &lt;$set name=&quot;list&quot; filter=&quot;[enlist&lt;old-list&gt;] -[[readme]] -[[license]] -[[history]]&quot;&gt;
-  &lt;$set name=&quot;new-list&quot; filter=&quot;readme license history [enlist&lt;list&gt;]&quot;&gt;
-    &lt;$button tooltip=&quot;add plugin boilerplate&quot; class=&lt;&lt;tv-config-toolbar-class&gt;&gt; style=&lt;&lt;button-style&gt;&gt; &gt;
-      &lt;$action-sendmessage $message=&quot;tm-new-tiddler&quot; title=&lt;&lt;plugin-tiddler-within &quot;history&quot;&gt;&gt; $param=&quot;$:/plugins/TheDiveO/ThirdFlow/ui/MoreSideBar/templates/new/history&quot; /&gt;
-      &lt;$action-sendmessage $message=&quot;tm-new-tiddler&quot; title=&lt;&lt;plugin-tiddler-within &quot;license&quot;&gt;&gt; $param=&quot;$:/plugins/TheDiveO/ThirdFlow/ui/MoreSideBar/templates/new/license&quot; /&gt;
-      &lt;$action-sendmessage $message=&quot;tm-new-tiddler&quot; title=&lt;&lt;plugin-tiddler-within &quot;readme&quot;&gt;&gt; $param=&quot;$:/plugins/TheDiveO/ThirdFlow/ui/MoreSideBar/templates/new/readme&quot; /&gt;
-      &lt;$action-setfield $tiddler=&lt;&lt;plugin-full-path&gt;&gt; list=&lt;&lt;new-list&gt;&gt; /&gt;
-      {{$:/core/images/list-bullet}} add plugin boilerplate
-    &lt;/$button&gt;
-  &lt;/$set&gt;
-  &lt;/$set&gt;
-  &lt;/$set&gt;
-&lt;/$set&gt;
-\end
-
-\define open-cp-thirdflow-release()
-&lt;$button tooltip=&quot;show Release tab in Control Panel&quot; class=&lt;&lt;tv-config-toolbar-class&gt;&gt; style=&lt;&lt;button-style&gt;&gt; &gt;
-  &lt;$action-setfield $tiddler=&quot;$:/state/tab-1749438307&quot; text=&quot;$:/plugins/TheDiveO/ThirdFlow/ui/ControlPanel/ThirdFlow&quot;/&gt;
-  &lt;$action-setfield $tiddler=&quot;$:/state/tabs/cp3f-1963478182&quot; text=&quot;$:/plugins/TheDiveO/ThirdFlow/ui/ControlPanel/ThirdFlow/Release&quot;/&gt;
-  &lt;$action-navigate $to=&quot;$:/ControlPanel&quot;/&gt;
-  {{$:/core/images/options-button}}
-&lt;/$button&gt;
-\end
-
-# fill in these fields:&lt;p/&gt;
-#* your name: &lt;$edit-text tiddler=&quot;$:/temp/PluginPublisher&quot; default=&quot;&quot; placeholder=&quot;YourName&quot; size=&quot;30&quot; tag=&quot;input&quot; /&gt;&lt;p/&gt;
-#* plugin name: &lt;$edit-text tiddler=&quot;$:/temp/PluginName&quot; placeholder=&quot;PluginName&quot; default=&quot;&quot; size=&quot;30&quot; tag=&quot;input&quot;/&gt;&lt;p/&gt;
-
-# press &lt;&lt;create-new-plugin&gt;&gt; to create your new plugin &lt;code&gt;&lt;$view tiddler=&quot;$:/temp/PluginPublisher&quot; format=&quot;text&quot;/&gt;/&lt;$view tiddler=&quot;$:/temp/PluginName&quot; format=&quot;text&quot;/&gt;&lt;/code&gt;. Next fill in the blanks in the tiddler edit form. Finally click on &lt;$button class=&lt;&lt;tv-config-toolbar-class&gt;&gt; &gt;{{$:/core/images/done-button}}&lt;/$button&gt; to save your new plugin tiddler.&lt;p/&gt;
-
-# press &lt;&lt;add-boilerplate&gt;&gt; to add the usual boilerplate, consisting of `readme`, `history`, and `license`. Fill in the required information into these tiddlers. Click on the &lt;$button class=&lt;&lt;tv-config-toolbar-class&gt;&gt; &gt;{{$:/core/images/done-button}}&lt;/$button&gt;s to save your boilerplate tiddlers.&lt;p/&gt;
-
-# you may now want to check the release file generation: press &lt;&lt;open-cp-thirdflow-release&gt;&gt; to show the &quot;Release&quot; tab from the control panel.
-#* enable/disable the creation a plugin release file, and its filename, when running `npm run release`.
-#* enabling/disabling the creation of a plugin-demo wiki from this development wiki, and its filename, when running `npm run release`.&lt;p/&gt;
-
-# use the &lt;$button class=&lt;&lt;tv-config-toolbar-class&gt;&gt; &gt;{{$:/core/images/down-arrow}}&lt;/$button&gt; menu button sitting right next to your plugin in the &quot;Plugin Sources&quot; view to add tiddlers to your plugin.
-
-# remove this &quot;Plugin Kickstarter&quot; tiddler when you don't need it any longer: press &lt;$button tooltip=&quot;remove this Kickstarter&quot; class=&lt;&lt;tv-config-toolbar-class&gt;&gt; style=&lt;&lt;button-style&gt;&gt; &gt;{{$:/core/images/delete-button}}&lt;$action-sendmessage $message=&quot;tm-close-tiddler&quot; $param=&lt;&lt;currentTiddler&gt;&gt; /&gt;&lt;$action-deletetiddler $tiddler=&lt;&lt;currentTiddler&gt;&gt; /&gt;&lt;$action-setfield $tiddler=&quot;$:/DefaultTiddlers&quot; text=&quot;[[Plugin Demo Wiki]]&quot; /&gt;&lt;/$button&gt; to remove the Kickstarter.</pre>
 </div>
 <div created="20200907150310016" modified="20200907154740259" tags="[[SF Manager]]" title="README" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>{{$:/plugins/huntsfromshadow/SF_RPG_Manager/README}}</pre>
