@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1,
+            shrink-to-fit=no" />
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous" />
+
+        <script src="https://kit.fontawesome.com/c2c0330039.js"
+            crossorigin="anonymous"></script>
+
+        <style>
+        .my-container {
+            /* border: 1px solid green; */
+        }
+        
+        .my-row {
+            /* border: 1px dotted red; */
+        }
+        
+        .my-col {
+            /* border: 1px dashed blue; */
+        }
+        
+        .top-spacer {
+            margin-top: 10px;
+        }
+        
+        .top-spacer-2 {
+            margin-top: 20px;
+        }
+        
+        .bottom-spacer {
+            margin-bottom: 10px;
+        }
+
+        .input-indent {
+            margin-left: 20px;
+        }
+    </style>
+    </head>
+
+    <body>
+        <div class="container my-container">
+            <div class="row my-row">
+                <div class="col-sm my-col">
+                    <h1>ATE Build Calculator</h1>
+                </div>
+            </div>
+            <div class="row my-row">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary"
+                    data-toggle="modal" data-target="#notesModal">
+                    Notes / Changelog
+                </button>
+            </div>
+            <div class="row my-row top-spacer">
+                <div class="col-sm my-col">
+                    <!-- Left Side - What you are building -->
+                    <div class="row my-row">
+                        <div class="col-sm my-col">
+                            <h2>What do you want to build?</h2>
+                        </div>
+                    </div>
+                    <div class="row my-row bottom-spacer">
+                        <!-- To Build Dropdown -->
+                        <div class="col-sm my-col">
+                            <select class="form-control" id="object_to_build">
+                            </select>
+                        </div>
+                        <div class="col-sm my-col">
+                            <button type="button" class="btn btn-default btn-sm"
+                                data-toggle="modal" data-target="#filterModal">
+                                <i class="fas fa-filter"></i> <b>Filter</b>
+                            </button>
+                            <button type="button" class="btn btn-default btn-sm" id="btnReset">
+                                <i class="fas fa-ban"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row my-row">
+                        <!-- Comsumable Level Dropdown -->
+                        <div class="col-sm my-col bottom-spacer">
+                            <select class="form-control" id="consumable_level">
+                                <option>Foolproof / Basic</option>
+                                <option>Intermediate</option>
+                                <option>Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- already exists dropdown -->
+                    <div class="row my-row">
+                        <div class="col-sm my-col">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input"
+                                    id="alreadyExistCB">
+                                <label class="form-check-label"
+                                    for="alreadyExistCB">Item Already Exists -
+                                    Remove Create Cost</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row my-row">
+                        <div class="col-sm my-col-sm top-spacer-2">
+                            <h4>Add Qualities</h4>
+                        </div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm my-col">
+                            <select class="form-control" id="quality_to_add">
+                            </select>
+                        </div>
+                        <div class="col-sm my-col">
+                            <button type="submit" class="btn btn-primary"
+                                id="add_qual_button">
+                                Add Quality
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Side - Results-->
+                <div class="col-sm my-col">
+                    <div class="row my-row">
+                        <div class="col-sm my-col">
+                            <h3>Results</h3>
+                        </div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm my-col">
+                            <b>Building:</b>
+                            <div id="build_name" style="padding-left: 20px;">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm my-col">
+                            <div id="notcalc_label">Not Calculated In</div>
+                        </div>
+                    </div>
+                    <div class="row my-row top-spacer-2">
+                        <div class="col-sm my-col">
+                            <b>With Qualities:</b>
+                        </div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm my-col">
+                            <ul id="qual-list"></ul>
+                        </div>
+                    </div>
+                    <div class="row my-row">
+                        <div class="col-sm my-col">
+                            <b>AP Cost:</b>
+                            <div id="ap_total" style="padding-left: 20px;">0</div>
+                        </div>
+                    </div>
+                    <div class="row my-row top-spacer">
+                        <div class="col-sm my-col">
+                            <b>MU Cost:</b>
+                            <div id="mu_total" style="padding-left: 20px;">0</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Changelog Modal -->
+                <div class="modal fade" id="notesModal" tabindex="-1"
+                    role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Notes
+                                    / Changelog</h5>
+                                <button type="button" class="close"
+                                    data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>This is a aid for doing build calculations in
+                                    ATE.</p>
+                                <p>Please double check all math yourself using
+                                    the Crafting Compendium. Reload the page to
+                                    reset qualities.
+                                </p>
+                                <p>This app <b>will not</b> stop you from making
+                                    an illegal crafted item.</p>
+                                <p>
+                                    Changelog
+                                    <ul>
+                                        <li>v1.2 - 2/7/2020 - Filter now works as does reset button.
+                                            Qualities clear when changing item, and you can remove
+                                            qualities.</li>
+                                        <li>v1.1 - 2/6/2020 - Cleaned Up Backend
+                                            Code & UI</li>
+                                        <li>v1 - 2/5/2020 - First Version.</li>
+
+                                    </ul>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Modal -->
+                <div class="modal fade" id="filterModal" tabindex="-1"
+                    role="dialog" aria-labelledby="filterModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="filerModalLabel">Filter
+                                    Build Dropdown</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="radByType"
+                                                name="groupRadio"
+                                                class="custom-control-input" checked>
+                                            <label class="custom-control-label"
+                                                for="radByType">Filter by Item Type</label>
+                                        </div>
+                                        <div class="form-check input-indent">
+                                            <label
+                                                class="form-check-label">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    name="" id="cb_perm"
+                                                    value="checkedValue"
+                                                    checked> Permenant Object
+                                            </label>
+                                            <br />
+                                            <label
+                                                class="form-check-label">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    name="" id="cb_consum"
+                                                    value=""
+                                                    checked> Other Consumable
+                                            </label>
+                                            <br />
+                                            <label
+                                                class="form-check-label">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    name="" id="cb_ammo"
+                                                    value="checkedValue"
+                                                    checked> Ammunition Consumable
+                                            </label>
+
+                                        </div>
+                                        <div class="custom-control custom-radio top-spacer">
+                                            <input type="radio" id="radBySkill"
+                                                name="groupRadio"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label"
+                                                for="radBySkill">Filter by Skill</label>
+                                        </div>
+                                        <div class="form-check input-indent">
+                                            <label
+                                                class="form-check-label">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    name="" id="cb_junkin" disabled>Junkin'
+                                            </label>
+                                            <br />
+                                            <label
+                                                class="form-check-label">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    name="" id="cb_medicine" disabled>Medicine
+                                            </label>
+                                            <br />
+                                            <label
+                                                class="form-check-label">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    name="" id="cb_nanoweavin" disabled>Nanoweavin'
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary"
+                                    data-dismiss="modal">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                    crossorigin="anonymous"></script>
+                <script
+                    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                    crossorigin="anonymous"></script>
+                <script
+                    src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+                    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+                    crossorigin="anonymous"></script>
+
+                <script src="datasource.js"></script>
+                <script src="code.js"></script>
+            </body>
+
+        </html>
